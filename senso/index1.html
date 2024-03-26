@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+ 
+    <!-- Include CSS and Chart.js library -->
+    <!-- <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script> -->
+ <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"> -->
+ <link rel="stylesheet" href="style.css">
+ 
+
+ <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
+ <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script> -->
+
+ <!-- Include Chart.js library -->
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+<body>
+    <h1>Sensor Data Graph</h1>
+    <div>
+        <input type="radio" name="sensor" value="temperature" id="temperatureRadio" checked>
+        <label for="temperatureRadio">Temperature</label>
+        <input type="radio" name="sensor" value="humidity" id="humidityRadio">
+        <label for="humidityRadio">Humidity</label>
+        <input type="radio" name="sensor" value="distance" id="distance">
+        <label for="distance">distance</label>
+        <input type="radio" name="sensor" value="ldr_value" id="ldr_value">
+        <label for="ldr_value">ldr_value</label>
+        <input type="radio" name="sensor" value="flame_value" id="flame_value">
+        <label for="flame_value">flame_value</label>
+        <input type="radio" name="sensor" value="pir_value" id="pir_value">
+        <label for="pir_value">pir_value</label>
+        <input type="radio" name="sensor" value="soilMoisture_value" id="soilMoisture_value">
+        <label for="soilMoisture_value">soilMoisture_value</label>
+        <input type="radio" name="sensor" value="rain_value" id="rain_value">
+        <label for="rain_value">rain_value</label>
+        <input type="radio" name="sensor" value="heartbeat_value" id="heartbeat_value">
+        <label for="heartbeat_value">heartbeat_value</label>
+       
+    </div>
+  
+    <Table>
+
+<tr>
+    <td>
+    <div>
+        <canvas id="sensorChart" class="sensor-Chart"></canvas>
+    </div>
+</td>
+<!-- <td>
+    <div>
+        <canvas id="gaugeChart" class="gauge-chart"></canvas>
+    </div>
+    </td> -->
+</tr>
+</Table>
+
+    <!-- Include JavaScript code -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Include Gauge.js library -->
+
+<script src="https://cdn.jsdelivr.net/npm/gaugeJS"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-linear-gauge"></script> -->
+    
+    <script src="script.js"></script>
+</body>
+</html>

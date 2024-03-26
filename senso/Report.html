@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        /* Your CSS styling here */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #119ada;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        input[type="date"] {
+            width: 200px;
+            margin-bottom: 10px;
+            padding: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        select {
+            width: 220px;
+            margin-bottom: 10px;
+            padding: 5px;
+            height: 150px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            border: 2px groove #1b1b1b;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+        #reportContainer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Range Report </h1>
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate">
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate">
+    
+    <!-- Add checkboxes for sensor columns -->
+    <label for="id">id</label>
+    <input type="checkbox" name="sensor" value="id" id="id">
+
+    <label for="temperature">Temperature</label>
+    <input type="checkbox" name="sensor" value="temperature" id="temperature">
+
+    <label for="humidity">Humidity</label>
+    <input type="checkbox" name="sensor" value="humidity" id="humidity">
+
+    <label for="distance">Distance</label>
+    <input type="checkbox" name="sensor" value="distance" id="distance">
+
+    <label for="ldr_value">ldr_value</label>
+    <input type="checkbox" name="sensor" value="ldr_value" id="ldr_value">
+   
+    <label for="flame_value">flame_value</label>
+    <input type="checkbox" name="sensor" value="flame_value" id="flame_value">
+
+    <label for="pir_value">pir_value</label>
+    <input type="checkbox" name="sensor" value="pir_value" id="pir_value">
+
+
+    <label for="soilMoisture_value">soilMoisture_value</label>
+    <input type="checkbox" name="sensor" value="soilMoisture_value" id="soilMoisture_value">
+
+
+    <label for="rain_value">rain_value</label>
+    <input type="checkbox" name="sensor" value="rain_value" id="rain_value">
+
+    <label for="heartbeat_value">heartbeat_value</label>
+    <input type="checkbox" name="sensor" value="heartbeat_value" id="heartbeat_value">
+    <!-- Add other sensor columns checkboxes as needed -->
+
+    <button onclick="generateReport()">Generate Report</button>
+    <div id="reportContainer"></div>
+
+    <script>
+        function generateReport() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            // Get the selected sensor columns (comma-separated)
+            const selectedColumns = [];
+            const checkboxes = document.querySelectorAll('input[name="sensor"]:checked');
+            checkboxes.forEach(checkbox => selectedColumns.push(checkbox.value));
+
+            if (selectedColumns.length === 0) {
+                alert('Please select at least one sensor column.');
+                return;
+            }
+
+            // Make an AJAX call to fetch data based on the selected date range and columns
+            const xhr = new XMLHttpRequest();
+            const sensorColumns = selectedColumns.join(',');
+            xhr.open('GET', `conn.php?sensor_columns=${sensorColumns}&start_date=${startDate}&end_date=${endDate}`, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    // Process the data and generate the report table
+                    const reportContainer = document.getElementById('reportContainer');
+                    reportContainer.innerHTML = ''; // Clear previous report
+                    
+                    if (data.length > 0) {
+                        const table = document.createElement('table');
+                        const headerRow = table.insertRow();
+                        headerRow.innerHTML = `<th>ID</th>${selectedColumns.map(column => `<th>${column}</th>`).join('')}`;
+                        
+                        data.forEach(item => {
+                            const row = table.insertRow();
+                            row.innerHTML = `<td>${item.id}</td>${selectedColumns.map(column => `<td>${item[column]}</td>`).join('')}`;
+                        });
+
+                        reportContainer.appendChild(table);
+                    } else {
+                        reportContainer.textContent = 'No data available for the selected date range.';
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
